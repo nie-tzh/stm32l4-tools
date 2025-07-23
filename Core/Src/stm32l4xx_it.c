@@ -41,7 +41,9 @@
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN PV */
-
+char uart2_rx_buf[512] = {0};
+uint16_t uart2_tail = 0;
+volatile uint16_t uart2_pkt_complete = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -223,10 +225,20 @@ void USART2_IRQHandler(void)
     /* USER CODE END USART2_IRQn 0 */
     HAL_UART_IRQHandler(&huart2);
     /* USER CODE BEGIN USART2_IRQn 1 */
-
+    if (RESET != __HAL_UART_GET_FLAG(&huart2, UART_FLAG_IDLE))
+    {
+        uart2_pkt_complete = 1;
+        __HAL_UART_CLEAR_IDLEFLAG(&huart2);
+    }
     /* USER CODE END USART2_IRQn 1 */
 }
 
 /* USER CODE BEGIN 1 */
-
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+    if (huart == &huart2)
+    {
+        HAL_UART_Receive_IT(&huart2, (uint8_t *)&uart2_rx_buf[++uart2_tail], 1);
+    }
+}
 /* USER CODE END 1 */

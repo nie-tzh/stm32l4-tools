@@ -21,7 +21,10 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include "shell.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -48,8 +51,23 @@ SPI_HandleTypeDef hspi1;
 UART_HandleTypeDef huart1;
 UART_HandleTypeDef huart2;
 
-/* USER CODE BEGIN PV */
+struct shell_input usart2_shell;
+extern char uart2_rx_buf[512];
+extern uint16_t uart2_tail;
+extern volatile uint16_t uart2_pkt_complete;
 
+/* USER CODE BEGIN PV */
+int fputc(int ch, FILE *f)
+{
+    HAL_UART_Transmit(&huart2, (uint8_t *)&ch, 1, 1000);
+
+    return ch;
+}
+
+void usart2_puts(char* data, uint16_t len)
+{
+	HAL_UART_Transmit(&huart2, (uint8_t *)data, len, HAL_MAX_DELAY);
+}
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -104,14 +122,25 @@ int main(void)
     MX_SPI1_Init();
     MX_USART2_UART_Init();
     /* USER CODE BEGIN 2 */
-
-    /* USER CODE END 2 */
+    shell_init("msh$ ", (fmt_puts_t) usart2_puts);		//��ʼ��Ĭ�ϱ�־����ʼ��Ĭ�����
+  	shell_input_init(&usart2_shell, (fmt_puts_t) usart2_puts);	//��ʼ��usart4�Ľ���
+  	HAL_UART_Receive_IT(&huart2, (uint8_t *)&uart2_rx_buf[0], 1);  //�򿪴����жϵĽ���
+ 	__HAL_UART_ENABLE_IT(&huart2, UART_IT_IDLE);				//ʹ�ܿ����ж�
+  /* USER CODE END 2 */
 
     /* Infinite loop */
     /* USER CODE BEGIN WHILE */
     while (1)
     {
         /* USER CODE END WHILE */
+		if (uart2_pkt_complete) {
+            shell_input(&usart2_shell, uart2_rx_buf, uart2_tail);
+            uart2_tail = 0;
+            uart2_pkt_complete = 0;
+            HAL_UART_AbortReceive(&huart2);
+            HAL_UART_Receive_IT(&huart2, (uint8_t*)&uart2_rx_buf[0], 1);
+        }
+        HAL_Delay(1);
 
         /* USER CODE BEGIN 3 */
     }
