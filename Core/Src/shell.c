@@ -26,6 +26,7 @@
 #include <stdio.h>
 #include "shell.h"
 #include "containerof.h"
+#include "spi_master.h"
 
 /* Private types ------------------------------------------------------------*/
 
@@ -928,4 +929,5 @@ void shell_init(char * defaultsign ,fmt_puts_t puts)
 	shell_register_command("shell-version",shell_version);
 	shell_register_command("clear"        ,shell_clean_screen);
 	shell_register_command("debug-info"   ,shell_debug_stream);
+	shell_register_command("test-spi"   ,shell_test_spi);
 }
