@@ -2,6 +2,8 @@
 #include <string.h>
 #include <stdlib.h>
 #include "main.h"
+#include "shell.h"
+#include "getopt.h"
 
 #define DELAY_US (20)
 #define TX_DEVICE_0    (0xA0)
@@ -17,6 +19,8 @@
 #define SPI_BNE_SET_TIMEOUT (20)
 
 extern SPI_HandleTypeDef hspi1;
+extern char *optarg;
+extern int optind;
 
 void delay_us(uint32_t us)
 {
@@ -26,6 +30,24 @@ void delay_us(uint32_t us)
         i = 10;
         while(i--);
     }
+}
+
+static void spi_ro_bne_init(void)
+{
+    GPIO_InitTypeDef GPIO_InitStruct = {0};
+	/* Configure GPIO pins : PB4(SPI_RO_O) */
+    GPIO_InitStruct.Pin = SPI_RO;
+    GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+    HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+    /* Configure GPIO pin : PB5(SPI_BNE_I) */
+    GPIO_InitStruct.Pin = SPI_BNE;
+    GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+    GPIO_InitStruct.Pull = GPIO_PULLUP;
+    HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
 }
 
 static int wait_gpio_set_until_timeout(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin, uint32_t Timeout)
@@ -89,22 +111,18 @@ int spi_passthrough_data_read_iam20685(uint32_t *times, uint32_t *errtimes)
 
 void shell_test_spi(void * arg)
 {
-    GPIO_InitTypeDef GPIO_InitStruct = {0};
-    uint32_t times = 0, errtimes = 0;
-	/* Configure GPIO pins : PB4(SPI_RO_O) */
-    GPIO_InitStruct.Pin = SPI_RO;
-    GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-    GPIO_InitStruct.Pull = GPIO_NOPULL;
-    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-    HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+    uint32_t count, argc, times = 0, errtimes = 0;
+    char *argv[8];
 
-    /* Configure GPIO pin : PB5(SPI_BNE_I) */
-    GPIO_InitStruct.Pin = SPI_BNE;
-    GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-    GPIO_InitStruct.Pull = GPIO_PULLUP;
-    HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+    argc = cmdline_strtok((char*)arg, argv, 8);
+    if (argc != 2) {
+        printf("Please input test times.\r\n");
+        return;
+    }
+    count = atoi(argv[1]);
 
-    for (uint32_t loop = 0; loop < 100000; loop++) {
+    spi_ro_bne_init();
+    for (uint32_t loop = 0; loop < count; loop++) {
         spi_passthrough_data_read_iam20685(&times, &errtimes);
     }
     printf("test_times:%u errtimes:%u!\n", times, errtimes);

@@ -256,4 +256,15 @@ void shell_input_init(struct shell_input * shellin , fmt_puts_t shellputs,...);
   * @return   void
 */
 void shell_confirm(struct shell_input * shellin ,char * info ,cmd_fn_t yestodo) ;
+
+/**
+  * @author   古么宁
+  * @brief    把 "a b c d" 格式化提取为 char*argv[] = {"a","b","c","d"};
+  * @note     一般供 getopt() 解析，运行过后命令行内容将被整改
+  * @param    str    : 命令字符串后面所跟参数缓冲区指针
+  * @param    argv   : 数据转换后缓存地址
+  * @param    maxread: 最大读取数
+  * @return   最终读取参数个数输出
+*/
+int cmdline_strtok(char * str ,char ** argv ,int maxread);
 #endif
