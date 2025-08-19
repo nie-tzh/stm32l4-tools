@@ -534,6 +534,9 @@
         <Group>
           <GroupName>::CMSIS</GroupName>
         </Group>
+        <Group>
+          <GroupName>::RTOS</GroupName>
+        </Group>
       </Groups>
     </Target>
   </Targets>
@@ -547,8 +550,62 @@
           <targetInfo name="stm32l4-tools"/>
         </targetInfos>
       </component>
+      <component Cbundle="RT-Thread" Cclass="RTOS" Cgroup="kernel" Cvendor="RealThread" Cversion="3.1.5" condition="CMSIS Core with RTOS">
+        <package name="RT-Thread" schemaVersion="1.4" url="https://www.rt-thread.org/download/mdk/" vendor="RealThread" version="3.1.5"/>
+        <targetInfos>
+          <targetInfo name="stm32l4-tools"/>
+        </targetInfos>
+      </component>
+      <component Cbundle="RT-Thread" Cclass="RTOS" Cgroup="shell" Cvendor="RealThread" Cversion="3.1.5" condition="shell">
+        <package name="RT-Thread" schemaVersion="1.4" url="https://www.rt-thread.org/download/mdk/" vendor="RealThread" version="3.1.5"/>
+        <targetInfos>
+          <targetInfo name="stm32l4-tools"/>
+        </targetInfos>
+      </component>
     </components>
-    <files/>
+    <files>
+      <file attr="config" category="source" name="bsp\_template\board.c" version="3.1.5">
+        <instance index="0">RTE\RTOS\board.c</instance>
+        <component Cbundle="RT-Thread" Cclass="RTOS" Cgroup="kernel" Cvendor="RealThread" Cversion="3.1.5" condition="CMSIS Core with RTOS"/>
+        <package name="RT-Thread" schemaVersion="1.4" url="https://www.rt-thread.org/download/mdk/" vendor="RealThread" version="3.1.5"/>
+        <targetInfos>
+          <targetInfo name="stm32l4-tools"/>
+        </targetInfos>
+      </file>
+      <file attr="config" category="header" name="components\finsh\finsh_config.h" version="3.1.5">
+        <instance index="0">RTE\RTOS\finsh_config.h</instance>
+        <component Cbundle="RT-Thread" Cclass="RTOS" Cgroup="shell" Cvendor="RealThread" Cversion="3.1.5" condition="shell"/>
+        <package name="RT-Thread" schemaVersion="1.4" url="https://www.rt-thread.org/download/mdk/" vendor="RealThread" version="3.1.5"/>
+        <targetInfos>
+          <targetInfo name="stm32l4-tools"/>
+        </targetInfos>
+      </file>
+      <file attr="config" category="source" name="components\finsh\finsh_port.c" version="3.1.5">
+        <instance index="0">RTE\RTOS\finsh_port.c</instance>
+        <component Cbundle="RT-Thread" Cclass="RTOS" Cgroup="shell" Cvendor="RealThread" Cversion="3.1.5" condition="shell"/>
+        <package name="RT-Thread" schemaVersion="1.4" url="https://www.rt-thread.org/download/mdk/" vendor="RealThread" version="3.1.5"/>
+        <targetInfos>
+          <targetInfo name="stm32l4-tools"/>
+        </targetInfos>
+      </file>
+      <file attr="config" category="header" name="bsp\_template\rtconfig.h" version="3.1.5">
+        <instance index="0">RTE\RTOS\rtconfig.h</instance>
+        <component Cbundle="RT-Thread" Cclass="RTOS" Cgroup="kernel" Cvendor="RealThread" Cversion="3.1.5" condition="CMSIS Core with RTOS"/>
+        <package name="RT-Thread" schemaVersion="1.4" url="https://www.rt-thread.org/download/mdk/" vendor="RealThread" version="3.1.5"/>
+        <targetInfos>
+          <targetInfo name="stm32l4-tools"/>
+        </targetInfos>
+      </file>
+    </files>
   </RTE>
+
+  <LayerInfo>
+    <Layers>
+      <Layer>
+        <LayName>stm32l4-tools</LayName>
+        <LayPrjMark>1</LayPrjMark>
+      </Layer>
+    </Layers>
+  </LayerInfo>
 
 </Project>
