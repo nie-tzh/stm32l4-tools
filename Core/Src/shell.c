@@ -27,6 +27,7 @@
 #include "shell.h"
 #include "containerof.h"
 #include "spi_master.h"
+#include "i2c_master.h"
 
 /* Private types ------------------------------------------------------------*/
 
@@ -930,4 +931,8 @@ void shell_init(char * defaultsign ,fmt_puts_t puts)
 	shell_register_command("clear"        ,shell_clean_screen);
 	shell_register_command("debug-info"   ,shell_debug_stream);
 	shell_register_command("test-spi"   ,shell_test_spi);
+	shell_register_command("test-i2c-detect"   ,shell_test_i2c_detect);
+	shell_register_command("test-i2c-rate-change"   ,shell_test_i2c_rate_change);
+	shell_register_command("test-i2c-send-message"   ,shell_test_i2c_send_message);
+	
 }

@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "containerof.h": "c",
+        "main.h": "c",
+        "i2c_master.h": "c"
+    }
+}

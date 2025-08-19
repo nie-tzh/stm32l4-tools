@@ -12,7 +12,7 @@
 #define TX_DEVICE_3    (0xA3)
 #define SPI_DEVICE_SS1 (0xA4)
 #define SPI_DEVICE_SS2 (0xA5)
-#define TX_DEVICE_ID    TX_DEVICE_0
+#define TX_DEVICE_ID    TX_DEVICE_1
 #define SPI_DEVICE_SS   SPI_DEVICE_SS1
 #define SPI_RO          GPIO_PIN_4
 #define SPI_BNE         GPIO_PIN_5
