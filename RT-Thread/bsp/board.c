@@ -116,3 +116,23 @@ void rt_hw_console_output(const char *str)
         HAL_UART_Transmit(&huart1, (uint8_t *)(str + i), 1, 1);
     }
 }
+
+char rt_hw_console_getchar(void)
+{
+    int ch = -1;
+
+    if (__HAL_UART_GET_FLAG(&huart1, UART_FLAG_RXNE) != RESET)
+    {
+        ch = huart1.Instance->RDR & 0xff;
+    }
+    else
+    {
+        if(__HAL_UART_GET_FLAG(&huart1, UART_FLAG_ORE) != RESET)
+        {
+            __HAL_UART_CLEAR_OREFLAG(&huart1);
+        }
+        rt_thread_mdelay(10);
+    }
+    return ch;
+}
+

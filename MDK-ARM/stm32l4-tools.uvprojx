@@ -340,7 +340,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32L431xx</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;../Drivers/STM32L4xx_HAL_Driver/Inc;../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32L4xx/Include;../Drivers/CMSIS/Include;..\RT-Thread\bsp;..\RT-Thread\include;..\RT-Thread\include\libc</IncludePath>
+              <IncludePath>../Core/Inc;../Drivers/STM32L4xx_HAL_Driver/Inc;../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32L4xx/Include;../Drivers/CMSIS/Include;..\RT-Thread\finsh;..\RT-Thread\bsp;..\RT-Thread\include;..\RT-Thread\include\libc</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -633,6 +633,31 @@
               <FileName>cpuport.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\RT-Thread\libcpu\arm\cortex-m3\cpuport.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>RT-Thread/finsh</GroupName>
+          <Files>
+            <File>
+              <FileName>cmd.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\RT-Thread\finsh\cmd.c</FilePath>
+            </File>
+            <File>
+              <FileName>finsh_port.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\RT-Thread\finsh\finsh_port.c</FilePath>
+            </File>
+            <File>
+              <FileName>msh.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\RT-Thread\finsh\msh.c</FilePath>
+            </File>
+            <File>
+              <FileName>shell.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\RT-Thread\finsh\shell.c</FilePath>
             </File>
           </Files>
         </Group>

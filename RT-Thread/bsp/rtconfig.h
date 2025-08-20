@@ -3,22 +3,12 @@
 #ifndef __RTTHREAD_CFG_H__
 #define __RTTHREAD_CFG_H__
 
-#include <rtthread.h>
-
-#if defined(__CC_ARM) || defined(__CLANG_ARM)
-#include "RTE_Components.h"
-
-#if defined(RTE_USING_FINSH)
-#define RT_USING_FINSH
-#endif //RTE_USING_FINSH
-
-#endif //(__CC_ARM) || (__CLANG_ARM)
-
 // <<< Use Configuration Wizard in Context Menu >>>
+
 // <h>Basic Configuration
 // <o>Maximal level of thread priority <8-256>
 //  <i>Default: 32
-#define RT_THREAD_PRIORITY_MAX  8
+#define RT_THREAD_PRIORITY_MAX  32
 // <o>OS tick per second
 //  <i>Default: 1000   (1ms)
 #define RT_TICK_PER_SECOND  1000
@@ -104,12 +94,13 @@
 // </h>
 
 // <h>Memory Management Configuration
-// <c1>Dynamic Heap Management
-//  <i>Dynamic Heap Management
-// #define RT_USING_HEAP
+// <c1>Memory Pool Management
+//  <i>Memory Pool Management
+//#define RT_USING_MEMPOOL
 // </c>
-// <c1>using small memory
-//  <i>using small memory
+// <c1>Dynamic Heap Management(Algorithm: small memory )
+//  <i>Dynamic Heap Management
+#define RT_USING_HEAP
 #define RT_USING_SMALL_MEM
 // </c>
 // <c1>using tiny size of memory
@@ -126,30 +117,22 @@
 // <o>the buffer size of console <1-1024>
 //  <i>the buffer size of console
 //  <i>Default: 128  (128Byte)
-#define RT_CONSOLEBUF_SIZE          128
+#define RT_CONSOLEBUF_SIZE          256
 // </h>
 
-#if defined(RT_USING_FINSH)
-    #define FINSH_USING_MSH
-    #define FINSH_USING_MSH_ONLY
-    // <h>Finsh Configuration
-    // <o>the priority of finsh thread <1-7>
-    //  <i>the priority of finsh thread
-    //  <i>Default: 6
-    #define __FINSH_THREAD_PRIORITY     5
-    #define FINSH_THREAD_PRIORITY       (RT_THREAD_PRIORITY_MAX / 8 * __FINSH_THREAD_PRIORITY + 1)
-    // <o>the stack of finsh thread <1-4096>
-    //  <i>the stack of finsh thread
-    //  <i>Default: 4096  (4096Byte)
-    #define FINSH_THREAD_STACK_SIZE     512
-    // <o>the history lines of finsh thread <1-32>
-    //  <i>the history lines of finsh thread
-    //  <i>Default: 5
-    #define FINSH_HISTORY_LINES         1
+// <h>FinSH Configuration
+// <c1>include finsh config
+//  <i>Select this choice if you using FinSH 
+#include "finsh_config.h"
+// </c>
+// </h>
 
-    #define FINSH_USING_SYMTAB
-    // </h>
-#endif
+// <h>Device Configuration
+// <c1>using device framework
+//  <i>using device framework
+//#define RT_USING_DEVICE
+// </c>
+// </h>
 
 // <<< end of configuration section >>>
 
