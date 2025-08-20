@@ -18,6 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "rtthread.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -53,9 +54,9 @@ UART_HandleTypeDef huart2;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
-void SystemClock_Config(void);
+// void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
-static void MX_USART1_UART_Init(void);
+// static void MX_USART1_UART_Init(void);
 static void MX_I2C1_Init(void);
 static void MX_I2C2_Init(void);
 static void MX_SPI1_Init(void);
@@ -83,14 +84,14 @@ int main(void)
     /* MCU Configuration--------------------------------------------------------*/
 
     /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-    HAL_Init();
+    // HAL_Init();
 
     /* USER CODE BEGIN Init */
 
     /* USER CODE END Init */
 
     /* Configure the system clock */
-    SystemClock_Config();
+    // SystemClock_Config();
 
     /* USER CODE BEGIN SysInit */
 
@@ -98,7 +99,7 @@ int main(void)
 
     /* Initialize all configured peripherals */
     MX_GPIO_Init();
-    MX_USART1_UART_Init();
+    // MX_USART1_UART_Init();
     MX_I2C1_Init();
     MX_I2C2_Init();
     MX_SPI1_Init();
@@ -112,7 +113,8 @@ int main(void)
     while (1)
     {
         /* USER CODE END WHILE */
-
+        rt_thread_mdelay(500);
+        // rt_kprintf("Hello\n");
         /* USER CODE BEGIN 3 */
     }
     /* USER CODE END 3 */
@@ -305,7 +307,7 @@ static void MX_SPI1_Init(void)
  * @param None
  * @retval None
  */
-static void MX_USART1_UART_Init(void)
+void MX_USART1_UART_Init(void)
 {
 
     /* USER CODE BEGIN USART1_Init 0 */
